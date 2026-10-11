@@ -153,6 +153,9 @@ QString getBiomeDisplay(int mc, int id)
     // 1.19
     case deep_dark:                     return QApplication::translate("Biome", "Deep Dark");
     case mangrove_swamp:                return QApplication::translate("Biome", "Mangrove Swamp");
+    case pale_garden: return QApplication::translate("Biome", "Pale Garden");
+    case sulfur_caves: return QApplication::translate("Biome", "Sulfur Caves");
+    case dappled_forest: return QApplication::translate("Biome", "Dappled Forest");
     // 1.20
     case cherry_grove:                  return QApplication::translate("Biome", "Cherry Grove");
     }

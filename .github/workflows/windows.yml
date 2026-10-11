@@ -1,0 +1,41 @@
+name: Windows classic build
+
+on:
+  push:
+    branches: [classic-26.3]
+  pull_request:
+    branches: [classic-26.3]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Check original interface hashes
+        run: python validation/verify_ui.py
+      - name: Install Qt 5 and matching compiler
+        shell: pwsh
+        run: |
+          python -m pip install aqtinstall==3.3.0
+          python -m aqt install-qt windows desktop 5.15.2 win64_mingw81 --archives qtbase qttools --outputdir "$env:RUNNER_TEMP/Qt"
+          python -m aqt install-tool windows desktop tools_mingw qt.tools.win64_mingw810 --outputdir "$env:RUNNER_TEMP/Qt"
+      - name: Build, test and deploy
+        shell: pwsh
+        run: |
+          ./build-windows.ps1 -QtRoot "$env:RUNNER_TEMP/Qt/5.15.2/mingw81_64" -MinGwRoot "$env:RUNNER_TEMP/Qt/Tools/mingw810_64"
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: classic-test-reports
+          path: |
+            build-release/Testing/Temporary/
+            build-release/port-verification/
+          if-no-files-found: ignore

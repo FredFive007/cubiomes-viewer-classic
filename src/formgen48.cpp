@@ -22,7 +22,7 @@ public:
     : QSpinBox(parent)
     {
         std::set<int> vset;
-        for (int i = 0, n = sizeof(g_qm_90) / sizeof(int64_t); i < n; i++)
+        for (int i = 0, n = (sizeof(g_qm_90) / sizeof(int64_t) - 1); i < n; i++)
             vset.insert(qmonumentQual(g_qm_90[i]));
         for (int v : vset)
             vlist.push_back(v);

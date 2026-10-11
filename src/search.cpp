@@ -1,3 +1,5 @@
+#include "cubiomes/features/end_city.h"
+#include "cubiomes/features/fortress.h"
 #include "search.h"
 #include "seedtables.h"
 #include "mainwindow.h"
@@ -683,14 +685,14 @@ static const QuadInfo *getQHInfo(uint64_t cst)
         getStructureConfig(Swamp_Hut, MC_NEWEST, &sc);
         sc.salt = 0; // ignore version dependent salt offsets
 
-        for (size_t i = 0, n = sizeof(low20QuadHutBarely) / sizeof(uint64_t); i < n; i++)
+        for (size_t i = 0, n = (sizeof(low20QuadHutBarely) / sizeof(uint64_t) - 1); i < n; i++)
         {
             uint64_t c = low20QuadHutBarely[i];
             for (uint64_t s = c;; s += 0x100000)
             {
                 // find a quad-hut for this constellation
                 Pos pc;
-                if (scanForQuads(sc, 128, s, low20QuadHutBarely, n, 20, 0, 0, 0, 1, 1, &pc, 1) < 1)
+                if (scanForQuads(sc, 128, s, low20QuadHutBarely, 20, 0, 0, 0, 1, 1, &pc, 1) < 1)
                     continue;
                 qreal rad = isQuadBase(sc, s, 160);
                 if (rad == 0)
@@ -708,21 +710,21 @@ static const QuadInfo *getQHInfo(uint64_t cst)
 
                 qi->flt = F_QH_BARELY;
                 int j, m;
-                m = sizeof(low20QuadHutNormal) / sizeof(uint64_t);
+                m = (sizeof(low20QuadHutNormal) / sizeof(uint64_t) - 1);
                 for (j = 0; j < m; j++) {
                     if (low20QuadHutNormal[j] == c) {
                         qi->flt = F_QH_NORMAL;
                         break;
                     }
                 }
-                m = sizeof(low20QuadClassic) / sizeof(uint64_t);
+                m = (sizeof(low20QuadClassic) / sizeof(uint64_t) - 1);
                 for (j = 0; j < m; j++) {
                     if (low20QuadClassic[j] == c) {
                         qi->flt = F_QH_CLASSIC;
                         break;
                     }
                 }
-                m = sizeof(low20QuadIdeal) / sizeof(uint64_t);
+                m = (sizeof(low20QuadIdeal) / sizeof(uint64_t) - 1);
                 for (j = 0; j < m; j++) {
                     if (low20QuadIdeal[j] == c) {
                         qi->flt = F_QH_IDEAL;
@@ -754,7 +756,7 @@ static const QuadInfo *getQMInfo(uint64_t s48)
         getStructureConfig(Monument, MC_NEWEST, &sc);
         sc.salt = 0;
 
-        for (size_t i = 0, n = sizeof(g_qm_90) / sizeof(uint64_t); i < n; i++)
+        for (size_t i = 0, n = (sizeof(g_qm_90) / sizeof(uint64_t) - 1); i < n; i++)
         {
             uint64_t s = g_qm_90[i];
             QuadInfo *qi = &qm_info[s];
@@ -1057,7 +1059,7 @@ testCondAt(
 
     if ((st = finfo.stype) > 0)
     {
-        if (!getStructureConfig_override(finfo.stype, env->mc, &sconf))
+        if (!getStructureConfig(finfo.stype, env->mc, &sconf))
             return COND_FAILED;
     }
     else memset(&sconf, 0, sizeof(sconf)); // never relevant, but clang-analyzer complains
@@ -1100,19 +1102,19 @@ testCondAt(
 
     case F_QH_IDEAL:
         seeds = low20QuadIdeal;
-        n = sizeof(low20QuadIdeal) / sizeof(uint64_t);
+        n = (sizeof(low20QuadIdeal) / sizeof(uint64_t) - 1);
         goto L_qh_any;
     case F_QH_CLASSIC:
         seeds = low20QuadClassic;
-        n = sizeof(low20QuadClassic) / sizeof(uint64_t);
+        n = (sizeof(low20QuadClassic) / sizeof(uint64_t) - 1);
         goto L_qh_any;
     case F_QH_NORMAL:
         seeds = low20QuadHutNormal;
-        n = sizeof(low20QuadHutNormal) / sizeof(uint64_t);
+        n = (sizeof(low20QuadHutNormal) / sizeof(uint64_t) - 1);
         goto L_qh_any;
     case F_QH_BARELY:
         seeds = low20QuadHutBarely;
-        n = sizeof(low20QuadHutBarely) / sizeof(uint64_t);
+        n = (sizeof(low20QuadHutBarely) / sizeof(uint64_t) - 1);
 
 L_qh_any:
         rx1 = x1 >> 9;
@@ -1121,7 +1123,7 @@ L_qh_any:
         rz2 = z2 >> 9;
 
         n = scanForQuads(
-                sconf, 128, (env->seed) & MASK48, seeds, n, 20, sconf.salt,
+                sconf, 128, (env->seed) & MASK48, seeds, 20, sconf.salt,
                 rx1, rz1, rx2 - rx1 + 1, rz2 - rz1 + 1, p, MAX_INSTANCES);
         if (n < 1)
             return COND_FAILED;
@@ -1179,7 +1181,7 @@ L_qm_any:
         // we don't really need to check for more than one instance here
         n = scanForQuads(
                 sconf, 160, (env->seed) & MASK48, g_qm_90,
-                sizeof(g_qm_90) / sizeof(uint64_t), 48, sconf.salt,
+                48, sconf.salt,
                 rx1, rz1, rx2 - rx1 + 1, rz2 - rz1 + 1, p, 1);
         if (n < 1)
             return COND_FAILED;
@@ -1238,6 +1240,8 @@ L_qm_any:
     case F_PORTALN:
     case F_ANCIENT_CITY:
     case F_TRAILS:
+    case F_CHAMBERS:
+    case F_CAMP:
 
     case F_FORTRESS:
     case F_BASTION:
@@ -2117,7 +2121,7 @@ L_qm_any:
 void findQuadStructs(int styp, Generator *g, QVector<QuadInfo> *out)
 {
     StructureConfig sconf;
-    if (!getStructureConfig_override(styp, g->mc, &sconf))
+    if (!getStructureConfig(styp, g->mc, &sconf))
         return;
 
     int qmax = 1000;
@@ -2129,7 +2133,7 @@ void findQuadStructs(int styp, Generator *g, QVector<QuadInfo> *out)
     {
         qcnt = scanForQuads(
             sconf, 128, g->seed & MASK48,
-            low20QuadHutBarely, sizeof(low20QuadHutBarely) / sizeof(uint64_t),
+            low20QuadHutBarely,
             20, sconf.salt,
             -r, -r, 2*r, 2*r, qlist, qmax
         );
@@ -2163,7 +2167,7 @@ void findQuadStructs(int styp, Generator *g, QVector<QuadInfo> *out)
     {
         qcnt = scanForQuads(
             sconf, 160, g->seed & MASK48,
-            g_qm_90, sizeof(g_qm_90) / sizeof(uint64_t),
+            g_qm_90,
             48, sconf.salt,
             -r, -r, 2*r, 2*r, qlist, qmax
         );

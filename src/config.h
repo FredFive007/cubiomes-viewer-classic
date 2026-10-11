@@ -11,7 +11,7 @@
 #include <vector>
 
 
-#define APP_STRING "cubiomes-viewer"
+#define APP_STRING "cubiomes-viewer-26.3-classic"
 
 #define PRECOMPUTE48_BUFSIZ ((int64_t)1 << 30)
 
@@ -124,6 +124,8 @@ enum {
     D_BASTION,
     D_ENDCITY,
     D_GATEWAY,
+    D_CHAMBERS,
+    D_CAMP,
     // non-recurring structures
     D_SPAWN,
     D_STRONGHOLD,

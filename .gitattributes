@@ -1,2 +1,5 @@
 lua/** linguist-vendored
+cubiomes/** linguist-vendored
+src/*.ui -text
+rc/**/*.qss -text
 

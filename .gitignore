@@ -1,4 +1,8 @@
 cubiomes-viewer.pro.user
 build
+build*/
+dist/
+__pycache__/
+.aqt/
 src/libwinsane/*.o
 **/.directory

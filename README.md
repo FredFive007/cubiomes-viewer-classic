@@ -1,113 +1,67 @@
-# Cubiomes Viewer
+# Cubiomes Viewer Classic — Minecraft 26.3
 
-Cubiomes Viewer provides a graphical interface for the efficient and flexible
-seed-finding utilities provided by [cubiomes](https://github.com/Cubitect/cubiomes)
-and a map viewer for the Minecraft biomes and structure generation.
+An **unofficial backport** of Minecraft Java 26.3 support to the original
+[Cubiomes Viewer 4.0.1](https://github.com/Cubitect/cubiomes-viewer/tree/4.0.1) interface,
+using the updated [xpple/cubiomes](https://github.com/xpple/cubiomes) engine.
 
-The tool is designed for high performance and supports Minecraft Java Edition
-main releases up to 1.20.
+**保留 Cubiomes Viewer 4.0.1 原版界面，支持 Minecraft Java 26.3 看种与筛种。**
+这是独立兼容分支，不是 Cubitect 官方版本。
 
+## Download / 下载
 
-## Download
+- [Windows x64 portable package / Windows 免安装包](https://github.com/FredFive007/cubiomes-viewer-classic/releases/download/v4.0.1-mc26.3-classic1/Cubiomes-Viewer-26.3-Classic-4.0.1-Windows-x64.zip)
+- [Release notes, source and checksums / 发布说明、源码和校验值](https://github.com/FredFive007/cubiomes-viewer-classic/releases/tag/v4.0.1-mc26.3-classic1)
+- [中文使用与编译说明](CLASSIC-26.3.md)
 
-Precompiled binaries can be found in the [releases section](https://github.com/Cubitect/cubiomes-viewer/releases)
-on GitHub. This includes single file executables, which are statically
-linked against [Qt](https://www.qt.io).
+Extract the **entire** archive, then run `cubiomes-viewer-26.3-classic.exe`.
+Keep the adjacent DLLs and plugin folders. Java is not required. Choose **26.3** in the version dropdown.
 
-A Flatpak for the tool is available on
-[Flathub](https://flathub.org/apps/details/com.github.cubitect.cubiomes-viewer).
+解压全部文件后运行 EXE，保留旁边的 DLL 和文件夹；不需要安装 Java。
+选择 **26.3**，继续使用原来的条件树和多线程搜索。
 
-For Arch Linux users, the tool may be found in the
-[AUR](https://aur.archlinux.org/packages/cubiomes-viewer) thanks to
-[JakobDev](https://github.com/JakobDev).
+![Classic interface displaying a 26.3 seed](docs/screenshots/classic-26.3.png)
 
-Non-PC platforms, such as macOS, are not formally supported, but you can check
-[here](https://github.com/Cubitect/cubiomes-viewer/issues/107) for more
-information on this issue.
+## Changes
 
+- Original **19 UI forms and one stylesheet are byte-for-byte unchanged** from 4.0.1.
+- Qt 5 controls; language, fonts, theme and icon size are inherited from an existing upstream installation on first normal launch.
+- Minecraft 26.3 engine; Dappled Forest, Sulfur Caves, Pale Garden, Trial Chambers and Abandoned Camp entries.
+- Updated structure and quad-seed-table interfaces, retaining the classic search workflow.
+- Separate settings namespace.
 
-## Build from source
+This branch deliberately targets the old interface; it is not the upstream project's current development branch.
 
-Build instructions can be found in the [buildguide](buildguide.md).
+## Validation
 
+Seven CTest suites passed locally, including engine checks and actual multithreaded Viewer searches.
+**4,096 Overworld biome samples** matched Minecraft Java 26.3 across eight seeds,
+four heights and block/quart sampling, including signed 64-bit boundary seeds.
+New-biome inclusion/exclusion, camp counts, session round trips and classic quad-monument filtering passed.
+The portable package was tested without the development toolchain on `PATH`.
+Original UI hashes are in [validation/original-ui-sha256.json](validation/original-ui-sha256.json).
 
-## Basic feature overview
+The first release is a **pre-release**. These are regression and sampled checks, not exhaustive validation
+of every seed, dimension, structure or terrain feature. Structure predictions retain Cubiomes' approximations;
+verify important seeds in-game.
 
-The tool features a map viewer that outlines the biomes of the Overworld,
-Nether and End dimensions, with a wide zoom range and with toggles for each
-supported structure type. The active game version and seed can be changed
-on the fly while a matching seeds list stores a working buffer of seeds for
-examination.
+## Build
 
-The integrated seed finder is highly customizable, utilizing a hierarchical
-condition system that allows the user to look for features that are relative to
-one another. Conditions can be based on a varity of criteria, including
-structure placement, world spawn point and requirements for the biomes of an
-area. The search supports Quad-Hut and Quad-Monument seed generators, which can
-quickly look for seeds that include extremely rare structure constellations.
-For more complex searches, the tool provides logic gates in the form of helper
-conditions and can integrate Lua scripts to create custom filters that can be
-edited right inside the tool.
+Windows x64: CMake 3.21+, Ninja, Python 3, Qt 5.15.2 (`win64_mingw81`), MinGW 8.1.0.
+The original executable used Qt 5.15.3; this build uses the public Qt 5.15.2 binaries.
 
-It is also possible to find Locations in a fixed seed. In this mode, the
-conditions are checked against a list of trial positions instead of the
-world origin. Each location that passes the conditions is then collected
-with additional information on where each individual condition was triggered.
+```powershell
+.\build-windows.ps1 -QtRoot 'C:\Qt\5.15.2\mingw81_64' -MinGwRoot 'C:\Qt\Tools\mingw810_64'
+```
 
-An analysis of the biomes and structures can be performed in their respective
-tabs. This provides information on the amount of biomes and structures that
-are available in an area, as well as their size and positions.
+Use this CMake build. The historical qmake project is retained as upstream reference.
+The engine is vendored in `cubiomes/`; no submodule checkout is required.
+Only Windows has been validated for this branch.
 
+## Credits and license
 
-## Screenshots
+Original Viewer and Cubiomes author: **Cubitect**. Updated engine: **xpple and contributors**.
+This fork maintains the compatibility integration and does not claim authorship of the upstream projects.
 
-Screenshots were taken of Cubiomes Viewer v4.0.
-
-![seeds](etc/screenshot_seeds-fs8.png
-"Searching for a quad-hut near a stronghold with a good biome variety")
-
-![locations](etc/screenshot_locations-fs8.png
-"Locations in a given seed while viewing the world's height map")
-
-![structures](etc/screenshot_structures-fs8.png
-"Examining structures in the nether")
-
-
-## Languages
-
-The active language can be selected under `Edit preferences`, which currently includes translations for:
-
-- English
-- German
-- Chinese
-
-Chinese translations are provided by [SunnySlopes](https://github.com/SunnySlopes)
-and are maintained at [his fork](https://github.com/SunnySlopes/cubiomes-viewer).
-
-
-## Known issues
-
-Desert Pyramids, Jungle Temples and, to a lesser extent, Woodland Mansions can
-fail to generate in 1.18+ due to unsuitable terrain. Cubiomes will make an
-attempt to estimate the terrain based on the biomes and climate noise. However,
-expect some inaccurate results.
-
-The World Spawn point for pre-1.18 versions can sometimes be off because it
-depends on the presence of a grass block, that cubiomes cannot test for.
-
-
-## Legal information
-
-The main code is under the GPLv3, see [LICENSE](LICENSE), while other
-components are released under their respective author licenses:
-
-- Biome and structure generation from cubiomes, licensed under MIT.
-- Cross platform [Qt](https://www.qt.io/licensing) GUI toolkit, available under (L)GPLv3.
-- Dark Qt theme derived from [QDarkStyleSheet](https://github.com/ColinDuquesnoy/QDarkStyleSheet), licensed under MIT.
-- Biome colors and icons are inspired by [Amidst](https://github.com/toolbox4minecraft/amidst), licensed under GPLv3.
-- [Lua](https://www.lua.org/license.html) is distributed under the terms of the MIT license.
-
-NOT AN OFFICIAL MINECRAFT PRODUCT.
-NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT.
-
-
+The Viewer retains [GPL-3.0](LICENSE); the engine retains [MIT](cubiomes/LICENSE), and Lua its original MIT notice.
+Binary packages include dependency notices and corresponding Viewer/engine/Lua source.
+See [SOURCE_PROVENANCE.md](SOURCE_PROVENANCE.md) and the preserved [upstream README](UPSTREAM_README.md).

@@ -13,12 +13,14 @@
 #include "cubiomes/generator.h"
 #include "cubiomes/util.h"
 
+int runPortVerification(int argc, char **argv, const QString& output);
+
 extern "C"
-int getStructureConfig_override(int stype, int mc, StructureConfig *sconf)
+int viewerStructureConfig(int stype, int mc, StructureConfig *sconf)
 {
     if unlikely(mc == INT_MAX) // to check if override is enabled in cubiomes
         mc = 0;
-    int ok = getStructureConfig(stype, mc, sconf);
+    int ok = getStructureConfig_default(stype, mc, sconf);
     if (ok && g_extgen.saltOverride)
     {
         uint64_t salt = g_extgen.salts[stype];
@@ -30,10 +32,13 @@ int getStructureConfig_override(int stype, int mc, StructureConfig *sconf)
 
 int main(int argc, char *argv[])
 {
+    setStructureConfigProvider(viewerStructureConfig);
     initBiomeColors(g_biomeColors);
     initBiomeTypeColors(g_tempsColors);
 
     QCoreApplication::setApplicationName(APP_STRING);
+    if (argc >= 3 && strcmp(argv[1], "--verify-port") == 0)
+        return runPortVerification(argc, argv, QString::fromLocal8Bit(argv[2]));
 
     bool version = false;
     bool nogui = false;
@@ -121,6 +126,20 @@ int main(int argc, char *argv[])
         QApplication::setAttribute(Qt::AA_UseStyleSheetPropagationInWidgetStyles, false);
 
         QApplication app(argc, argv);
+
+        // Keep the original user's appearance, while isolating port settings.
+        QSettings settings(APP_STRING, APP_STRING);
+        if (!settings.contains("classic/appearanceImported"))
+        {
+            QSettings original("cubiomes-viewer", "cubiomes-viewer");
+            const char *keys[] = {"config/lang", "config/uistyle", "config/fontNorm",
+                                  "config/fontMono", "config/iconScale"};
+            for (const char *key : keys)
+                if (!settings.contains(key) && original.contains(key))
+                    settings.setValue(key, original.value(key));
+            settings.setValue("classic/appearanceImported", true);
+            settings.sync();
+        }
 
         MainWindow mw(sessionpath, resultspath);
         mw.show();

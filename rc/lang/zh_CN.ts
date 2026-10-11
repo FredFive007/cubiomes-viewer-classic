@@ -540,6 +540,9 @@
         <source>Cherry Grove</source>
         <translation>樱花树林</translation>
     </message>
+    <message><source>Sulfur Caves</source><translation>硫磺洞穴</translation></message>
+    <message><source>Dappled Forest</source><translation>斑驳森林</translation></message>
+    <message><source>Pale Garden</source><translation>苍白之园</translation></message>
 </context>
 <context>
     <name>BiomeColorDialog</name>
@@ -2574,6 +2577,8 @@ Continue and overwrite?</source>
         <source>function check() was not defined</source>
         <translation>未定义check()函数！</translation>
     </message>
+    <message><source>Abandoned camp</source><translation>废弃营地</translation></message>
+    <message><source>Trial chambers</source><translation>试炼密室</translation></message>
 </context>
 <context>
     <name>FormConditions</name>
@@ -4000,6 +4005,8 @@ Continue anyway?</source>
         <source>End Gateway</source>
         <translation>末地折跃门</translation>
     </message>
+    <message><source>Abandoned Camp</source><translation>废弃营地</translation></message>
+    <message><source>Trial Chambers</source><translation>试炼密室</translation></message>
 </context>
 <context>
     <name>MapToolsDialog</name>

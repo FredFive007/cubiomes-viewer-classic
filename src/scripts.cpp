@@ -140,13 +140,7 @@ static int l_getStructures(lua_State *L)
         return 0;
     }
 
-    int dim = DIM_OVERWORLD;
-    if (sconf.properties & STRUCT_NETHER)
-        dim = DIM_NETHER;
-    else if (sconf.properties & STRUCT_END)
-        dim = DIM_END;
-
-    env->init4Dim(dim);
+    env->init4Dim(sconf.dim);
 
     if (styp == End_City)
     {

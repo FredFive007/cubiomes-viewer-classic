@@ -113,6 +113,7 @@ static const uint64_t g_qm_90[] = {
     261039958084216ULL,
     264768543640500ULL,
     265956699301296ULL,
+    0
 };
 
 static const uint64_t g_qm_95[] = {

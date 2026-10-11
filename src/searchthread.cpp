@@ -367,22 +367,22 @@ static void genQHBases(QObject *qtobj, int qual, uint64_t salt, std::vector<uint
     case IDEAL:
         lbstr = "ideal";
         lbset = low20QuadIdeal;
-        lbcnt = sizeof(low20QuadIdeal) / sizeof(uint64_t);
+        lbcnt = (sizeof(low20QuadIdeal) / sizeof(uint64_t) - 1);
         break;
     case CLASSIC:
         lbstr = "cassic";
         lbset = low20QuadClassic;
-        lbcnt = sizeof(low20QuadClassic) / sizeof(uint64_t);
+        lbcnt = (sizeof(low20QuadClassic) / sizeof(uint64_t) - 1);
         break;
     case NORMAL:
         lbstr = "normal";
         lbset = low20QuadHutNormal;
-        lbcnt = sizeof(low20QuadHutNormal) / sizeof(uint64_t);
+        lbcnt = (sizeof(low20QuadHutNormal) / sizeof(uint64_t) - 1);
         break;
     case BARELY:
         lbstr = "barely";
         lbset = low20QuadHutBarely;
-        lbcnt = sizeof(low20QuadHutBarely) / sizeof(uint64_t);
+        lbcnt = (sizeof(low20QuadHutBarely) / sizeof(uint64_t) - 1);
         break;
     default:
         return;
@@ -402,7 +402,7 @@ static void genQHBases(QObject *qtobj, int qual, uint64_t salt, std::vector<uint
             QMetaObject::invokeMethod(qtobj, "openProtobaseMsg", Qt::QueuedConnection, Q_ARG(QString, path));
 
         int threads = QThread::idealThreadCount();
-        int err = searchAll48(&qb, &qn, fnam.data(), threads, lbset, lbcnt, 20, check, NULL, (volatile char*) stop);
+        int err = searchAll48(&qb, &qn, fnam.data(), threads, lbset, 20, check, NULL, (volatile char*) stop);
 
         if (err)
         {
@@ -500,7 +500,7 @@ void SearchMaster::presearch(QObject *qtobj)
             else
             {
                 StructureConfig sconf;
-                getStructureConfig_override(Swamp_Hut, mc, &sconf);
+                getStructureConfig(Swamp_Hut, mc, &sconf);
                 salt = sconf.salt;
             }
             slist.clear();
@@ -509,9 +509,9 @@ void SearchMaster::presearch(QObject *qtobj)
         else if (gen48.mode == GEN48_QM)
         {
             StructureConfig sconf;
-            getStructureConfig_override(Monument, mc, &sconf);
+            getStructureConfig(Monument, mc, &sconf);
             const uint64_t *qb = g_qm_90;
-            uint64_t qn = sizeof(g_qm_90) / sizeof(uint64_t);
+            uint64_t qn = (sizeof(g_qm_90) / sizeof(uint64_t) - 1);
             slist.clear();
             slist.reserve(qn);
             for (uint64_t i = 0; i < qn; i++)

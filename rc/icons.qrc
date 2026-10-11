@@ -1,5 +1,10 @@
 <RCC>
     <qresource prefix="/">
+        <file>icons/camp.png</file>
+        <file>icons/camp_d.png</file>
+        <file>icons/chambers.png</file>
+        <file>icons/chambers_d.png</file>
+
         <file>icons/desert.png</file>
         <file>icons/desert_d.png</file>
         <file>icons/igloo.png</file>

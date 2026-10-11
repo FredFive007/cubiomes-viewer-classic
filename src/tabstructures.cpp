@@ -64,14 +64,10 @@ void AnalysisStructures::runStructs(Generator *g)
         int stype = mapopt2stype(sopt);
         st.clear();
         StructureConfig sconf;
-        if (!getStructureConfig_override(stype, wi.mc, &sconf))
+        if (!getStructureConfig(stype, wi.mc, &sconf))
             continue;
 
-        int sdim = DIM_OVERWORLD;
-        if (sconf.properties & STRUCT_NETHER)
-            sdim = DIM_NETHER;
-        if (sconf.properties & STRUCT_END)
-            sdim = DIM_END;
+        int sdim = sconf.dim;
         if (dim != DIM_UNDEF && dim != sdim)
             continue;
 

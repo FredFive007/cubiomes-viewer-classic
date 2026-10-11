@@ -1,0 +1,22 @@
+{
+  "src/aboutdialog.ui": "69c84ee0552002bf64186bd342810c28a6496c0b27e3502d4c85651082c9712a",
+  "src/biomecolordialog.ui": "85349de395675b7fce1e6aa68e9a7d7e9d32e34c72cfe8bdcfef598452c83f73",
+  "src/conditiondialog.ui": "afbcb8f69cb4468ac006bcf008c06c79cebfab92d6563cc8a3ee6510fa031acf",
+  "src/configdialog.ui": "588e7135c44ec918e601e43a087872bd19541cd4269d85d989f9693c1bcf661c",
+  "src/exportdialog.ui": "c63f7ebe9980daa7c5a3533ac7fdeeb63cc028e152fadd8fdfde9c0fac79ce9a",
+  "src/extgendialog.ui": "2d0a7b786a0a558105e03f7fcb9de8212a2ebd2cac4e755ba02ed8ba967a801f",
+  "src/formconditions.ui": "de4d959c22930a54b853fcd0498be9821990555e730148c6b45a63ff57088946",
+  "src/formgen48.ui": "fcc8710946218406b3900d3dd54a64a76e55cc3eda12c86b10f3c2cfb2e4fac5",
+  "src/formsearchcontrol.ui": "5275dd49c2b1d663a9341dad8e63a45b103aa20547e56bd4a94d3b999d35d2e3",
+  "src/gotodialog.ui": "e6d3afeafbcd02f60c042c334413ebcced022ec723f3453275d06c2a86e1b69f",
+  "src/layerdialog.ui": "a6bdba57bf232f4246814db212ecea76c7c4c484c779f197febaadeb968c9959",
+  "src/mainwindow.ui": "8f305af45b1e2275da3737bfd1a9eadba2141572351d8eb89828015e1f6ccbbe",
+  "src/maptoolsdialog.ui": "854997f7be567eb1073fcffe4f56745c1dc05a0550d423bc8932a21fccfa8507",
+  "src/presetdialog.ui": "39f942c375a702f3248e8c71734ae8e1df3941fd6153b9e8a092663ae23ed2dc",
+  "src/protobasedialog.ui": "00e48bd968a02c594a719fb4db6ec8e5d6d39c0d573353a43587c66915fcc789",
+  "src/rangedialog.ui": "3854bd74db5eb444ff7e39721fba970733d78c1eb96455737ec3b32a6e77075b",
+  "src/tabbiomes.ui": "d557bbbc0348e522d207883119a6b0b8d926692c375862ce2556059ca37c3dfa",
+  "src/tablocations.ui": "efca62fd219e3e8d6ddddf7fc97b7e6c9f45fe5c3609f0d4aeb2f56d930335cb",
+  "src/tabstructures.ui": "51a48a80bac4b6ad37bafed599b09e03efa3bc846a0254088ba9709fa2d461b7",
+  "rc/dark.qss": "48f8b64bde75f9012e8e6e2b98db56da4d997c88fe236e1aebeea653139ae821"
+}
